@@ -1,0 +1,35 @@
+/*
+ * Page chrome sits below the board surface (darker in dark mode, dimmer in
+ * light), so the columns read as one raised object on it.
+ *
+ * moonspace-dom's GlobalStyle puts `body { background: var(--bg) }` in
+ * `@layer reset`; this file is unlayered author CSS, so it wins regardless of
+ * order. `html body` keeps the extra specificity for good measure.
+ */
+html body {
+  background: var(--bg-sunken);
+}
+
+#root {
+  margin: 0;
+  height: 100vh;
+}
+
+/*
+ * A board, not a document. Dragging across the columns should move the pointer,
+ * not paint a selection over every card title it crosses.
+ */
+html {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/*
+ * …except where the text *is* the payload: the detail pane's body and the
+ * task's path, which are there to be copied out.
+ */
+.selectable,
+.selectable * {
+  -webkit-user-select: text;
+  user-select: text;
+}

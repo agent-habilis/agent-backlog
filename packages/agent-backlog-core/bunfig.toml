@@ -1,0 +1,2 @@
+# No preload — this package parses markdown and reads directories. It has never
+# touched the DOM, and registering one would only slow the run.

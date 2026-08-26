@@ -1,0 +1,4 @@
+# No preload, and that is the point: this package must run on Bun's own
+# platform globals. `eventsResponse` builds a `Response` around a
+# `ReadableStream`, and `Bun.serve` refuses a happy-dom `Response` — registering
+# a DOM here breaks the server from inside its own source.

@@ -1,0 +1,11 @@
+# No `preload` here, deliberately. `bun test` applies one bunfig to every
+# package it discovers, and a DOM is not a repo-wide need: registering happy-dom
+# replaces `fetch`, `Response` and `ReadableStream` with browser simulations, and
+# `Bun.serve` rejects a happy-dom `Response` outright — so a global preload
+# breaks the server package's tests from inside the server's own source.
+#
+# Each package declares its own preload instead, which is why `bun run test`
+# (`--filter '*'`, one run per package, each picking up its own bunfig) is the
+# command rather than a bare `bun test` from here.
+[test]
+root = "packages"

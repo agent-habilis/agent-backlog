@@ -1,0 +1,9 @@
+// The bundler reaches these files by real path rather than through a
+// `node_modules` symlink, so the base's `jsx` pair is inherited — see
+// `tsconfig.base.json`.
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": { "types": ["bun"], "exactOptionalPropertyTypes": false },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
+}

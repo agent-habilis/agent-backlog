@@ -1,0 +1,19 @@
+{
+  "name": "agent-backlog-web",
+  "version": "0.0.0",
+  "description": "The browser half: one page that renders the .agent-backlog/ board and live-reloads. Read-only — the /backlog skill is the board's only writer.",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "agent-backlog-core": "workspace:*",
+    "moonspace": "workspace:*",
+    "moonspace-dom": "workspace:*",
+    "moonspace-theme": "workspace:*",
+    "visage-dom": "workspace:*",
+    "visage-style": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "agent-backlog-core",
+  "version": "0.0.0",
+  "description": "Reads a .agent-backlog/ board from disk. Read-only by design \u2014 the /backlog skill owns every write.",
+  "type": "module",
+  "private": true,
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/testing.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  }
+}

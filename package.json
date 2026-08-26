@@ -1,0 +1,20 @@
+{
+  "name": "agent-backlog-workspace",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun --hot scripts/dev.ts",
+    "start": "bun scripts/start.ts",
+    "build": "bun scripts/build.ts",
+    "typecheck": "bun run --filter '*' typecheck",
+    "test": "bun run --filter '*' test"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^20.11.1",
+    "@types/bun": "^1.3.14",
+    "typescript": "^7.0.2"
+  }
+}
