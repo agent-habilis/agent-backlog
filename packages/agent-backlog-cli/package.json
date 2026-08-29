@@ -1,0 +1,17 @@
+{
+  "name": "agent-backlog",
+  "version": "0.1.0",
+  "description": "The `agent-backlog` binary: `web` serves the board, `plug`/`unplug` install the /backlog skill into each harness. The version here is the release version — the tag must match it.",
+  "type": "module",
+  "private": true,
+  "main": "./src/main.ts",
+  "dependencies": {
+    "agent-backlog-core": "workspace:*",
+    "agent-backlog-server": "workspace:*",
+    "agent-backlog-web": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  }
+}

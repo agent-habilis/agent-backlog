@@ -28,13 +28,34 @@ need git to do it.
 
 ## Install
 
-```sh
-git clone https://github.com/agent-habilis/backlog agent-backlog
-cd agent-backlog
-bun install
+### Agentic installation
 
-ln -s "$PWD/skills/backlog" ~/.claude/skills/backlog
+```text
+Fetch https://raw.githubusercontent.com/agent-habilis/agent-backlog/main/docs/agentic-installation.md and follow it
 ```
+
+### Manual installation
+
+The binary carries the skill, so installing both is one line. `plug` writes
+the `/backlog` skill into every harness it detects on the machine — Claude
+Code, pi, Codex, Cursor, opencode. `unplug` removes it again.
+
+```sh
+brew install agent-habilis/tap/agent-backlog && agent-backlog plug
+```
+
+From a checkout, on any platform with Bun:
+
+```sh
+git clone https://github.com/agent-habilis/agent-backlog
+cd agent-backlog
+bun install && bun run install-local
+```
+
+`install-local` installs the checkout through `Formula/agent-backlog.rb`: it
+runs `brew install --HEAD` with the formula's head pointed at the checkout,
+then `agent-backlog plug`. Homebrew clones the branch, so it builds the last
+commit — commit first.
 
 Then, in any repo:
 
@@ -121,7 +142,7 @@ both halves agree on what it says.
 
 ```sh
 cd <your repo>
-bun --hot <path to this checkout>/scripts/dev.ts   # or: /backlog web
+agent-backlog web        # or: /backlog web
 ```
 
 One page. Columns left to right, cards inside, a detail pane for the selected
@@ -134,9 +155,9 @@ palette as `agent-share`. One font, one size; hierarchy comes from colour and
 weight, never from scale.
 
 ```sh
-bun run dev        # the board, hot-reloading
-bun run build      # static bundle into dist/
-bun run start      # serve dist/
+bun run dev        # the board, hot-reloading, against the cwd's board
+bun run build      # compile build/agent-backlog (--all: the four release targets)
+bun run install-local  # brew install --HEAD from this checkout, then plug
 bun run typecheck
 bun run test       # not bare `bun test` — see below
 ```
@@ -160,10 +181,28 @@ packages/
   agent-backlog-core/      read a board from disk (read-only by design)
   agent-backlog-server/    the JSON endpoint and the change stream
   agent-backlog-web/       the one-page board
+  agent-backlog-cli/       the binary: web, plug, unplug
   visage-dom/ visage-style/
   moonspace/ moonspace-theme/ moonspace-dom/
-scripts/                   dev, build, start
+scripts/                   dev, build, install-local
+Formula/agent-backlog.rb   the Homebrew formula; the release workflow bumps it
 docs/vendoring.md          where the five vendored packages came from
 ```
+
+## Releasing
+
+The version lives in `packages/agent-backlog-cli/package.json`, and the tag
+must match it.
+
+1. Bump `version` there and commit: `chore: release vX.Y.Z`.
+2. `git tag vX.Y.Z && git push origin main --follow-tags`.
+
+The tag runs `.github/workflows/release.yml`: it compiles the four targets
+(macOS and Linux, arm64 and x64) with `bun build --compile`, uploads them to a
+GitHub Release, rewrites the version and checksums in
+`Formula/agent-backlog.rb`, commits that to `main`, and mirrors the formula to
+[agent-habilis/homebrew-tap](https://github.com/agent-habilis/homebrew-tap).
+The mirror step needs the `TAP_PUSH_TOKEN` repository secret: a fine-grained
+PAT with contents read/write on the tap.
 
 a tool by agent-habilis

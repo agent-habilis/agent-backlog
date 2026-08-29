@@ -1,0 +1,2 @@
+# No preload: `web.ts` hands `Bun.serve` a real `Response`, and a happy-dom one
+# is refused. Same reason as agent-backlog-server.

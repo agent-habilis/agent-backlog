@@ -1,5 +1,5 @@
 node_modules/
-dist/
+build/
 .DS_Store
 
 # This repo's own board. It is the dogfooding board for developing the tool,
@@ -9,3 +9,6 @@ dist/
 # A board in a normal project belongs *in* git: that is what makes a move show
 # up as a rename and `git log --follow` say when it happened.
 .agent-backlog/
+
+# Scratch files `bun build --compile --target` leaves beside the outfile.
+.*.bun-build

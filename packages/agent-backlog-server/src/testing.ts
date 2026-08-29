@@ -33,7 +33,7 @@ const DRAIN_MS = 120
 /**
  * A server bound to an ephemeral port, answering only the two data endpoints.
  *
- * `dataRoutes` is the same table `dev.ts` and `start.ts` mount, so the matrix
+ * `dataRoutes` is the same table `dev.ts` and the binary's `web.ts` mount, so the matrix
  * exercises the routing users hit rather than a copy of it. No page route: the
  * matrix never loads HTML, and leaving the bundler out keeps a run to
  * milliseconds.

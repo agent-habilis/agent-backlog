@@ -5,20 +5,20 @@ Open the board's web view.
 ## Steps
 
 1. Find the board. No board → offer `init` and stop.
-2. Find the `agent-backlog` checkout — the repo holding this skill. The skill
-   directory is usually a symlink into it:
+2. Check that the binary is on the PATH: `agent-backlog --version`. If it is
+   not, stop and tell the user how to install it:
 
-   ```bash
-   dirname "$(dirname "$(readlink -f "<skill-dir>")")"
+   ```sh
+   brew install agent-habilis/tap/agent-backlog && agent-backlog plug
    ```
 
-   If that does not land on a directory holding `package.json` and `scripts/`,
-   ask the user where the checkout is.
-3. From that checkout, start the server in the background, with the board's repo
-   as the working directory so it finds the right `.agent-backlog/`:
+   From a checkout of the repo: `bun install && bun run build`, then put
+   `build/agent-backlog` on the PATH.
+3. Start the server in the background, with the board's repo as the working
+   directory so it finds the right `.agent-backlog/`:
 
    ```bash
-   cd <board-repo> && bun --hot <checkout>/scripts/dev.ts
+   cd <board-repo> && agent-backlog web
    ```
 
    `PORT` picks the port; the default is 4321. If it is taken, set another and
@@ -30,5 +30,4 @@ Open the board's web view.
 ## Rules
 
 - Run it in the background. Never block the session on a server.
-- If `bun` is missing, say so and stop. Do not reach for another runtime.
 - Do not offer to edit the board from the browser. It reads; this skill writes.

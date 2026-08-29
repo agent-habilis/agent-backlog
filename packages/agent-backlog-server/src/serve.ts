@@ -1,5 +1,5 @@
 /**
- * The two data endpoints, shared by `dev.ts` and `start.ts` so a hot-reloading
+ * The two data endpoints, shared by `dev.ts` and the binary's `web.ts` so a hot-reloading
  * run and a built one answer identically.
  *
  * The board is read from the cwd's nearest `.agent-backlog/`, resolved per
@@ -71,7 +71,7 @@ export async function boardResponse(cwd: string = process.cwd()): Promise<Respon
 /**
  * The data half of the app, as a Bun route table.
  *
- * Exported so `dev.ts`, `start.ts` and the test harness mount the *same* two
+ * Exported so `dev.ts`, the binary's `web.ts` and the test harness mount the *same* two
  * routes instead of three hand-copied tables — the harness was otherwise
  * exercising a route map maintained separately from the one users hit, which is
  * the one place a divergence would go unnoticed.

@@ -1,27 +1,47 @@
 /**
- * Production bundle for the board page.
+ * `bun run build [--target <bun-target>] [--all]`: compile the binary.
  *
- * Bun writes chunk URLs relative to the page. There is only one page and it is
- * served from the root, so nothing needs rewriting here — unlike agent-share,
- * whose SPA shell answers routes at other depths.
+ * One executable holds the server, the bundled page, and the skill tree
+ * (`--asset ./skills/backlog`), so `agent-backlog web` and `agent-backlog plug`
+ * need nothing from a checkout. Runs the CLI rather than `Bun.build()`: the JS
+ * API has no `asset` option.
+ *
+ * No `--target` builds for this machine as `build/agent-backlog`. `--all` builds
+ * the four release targets as `build/agent-backlog-<target>`.
  */
 
 import { rm } from 'node:fs/promises'
 
-const APP_HTML = './packages/agent-backlog-web/src/pages/index.html'
+const RELEASE_TARGETS = ['bun-darwin-arm64', 'bun-darwin-x64', 'bun-linux-x64', 'bun-linux-arm64']
 
-await rm('./dist', { recursive: true, force: true })
+const args = process.argv.slice(2)
+const targets = args.includes('--all')
+  ? RELEASE_TARGETS
+  : args.includes('--target')
+    ? [args[args.indexOf('--target') + 1] ?? '']
+    : [null]
 
-const result = await Bun.build({
-  entrypoints: [APP_HTML],
-  outdir: './dist',
-  minify: true,
-  target: 'browser',
-})
+await rm('./build', { recursive: true, force: true })
 
-if (!result.success) {
-  for (const log of result.logs) console.error(log)
-  process.exit(1)
+for (const target of targets) {
+  const outfile = target === null ? 'build/agent-backlog' : `build/agent-backlog-${target.replace(/^bun-/, '')}`
+  const cmd = [
+    'bun', 'build', '--compile', '--minify',
+    ...(target === null ? [] : [`--target=${target}`]),
+    '--asset', './skills/backlog',
+    './packages/agent-backlog-cli/src/main.ts',
+    '--outfile', outfile,
+  ]
+  await run(cmd)
+  // The ad-hoc signature Bun writes is refused here (the binary dies with
+  // SIGKILL before main), and a fresh one is accepted. Only a Mac can sign, so
+  // the formula repeats this at install time for the tarballs CI cross-compiles.
+  if (process.platform === 'darwin' && (target === null || target.includes('darwin'))) {
+    await run(['codesign', '--force', '--sign', '-', outfile])
+  }
 }
 
-for (const output of result.outputs) console.log(`  ${output.path}`)
+async function run(cmd: string[]): Promise<void> {
+  const proc = Bun.spawn(cmd, { stdout: 'inherit', stderr: 'inherit' })
+  if ((await proc.exited) !== 0) process.exit(1)
+}
