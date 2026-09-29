@@ -9,6 +9,8 @@
     "dev": "bun --hot scripts/dev.ts",
     "build": "bun scripts/build.ts",
     "install-local": "bun scripts/install-local.ts",
+    "plug": "bun packages/agent-backlog-cli/src/main.ts plug",
+    "unplug": "bun packages/agent-backlog-cli/src/main.ts unplug",
     "typecheck": "bun run --filter '*' typecheck",
     "test": "bun run --filter '*' test"
   },

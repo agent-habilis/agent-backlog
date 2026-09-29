@@ -158,6 +158,8 @@ weight, never from scale.
 bun run dev        # the board, hot-reloading, against the cwd's board
 bun run build      # compile build/agent-backlog (--all: the four release targets)
 bun run install-local  # brew install --HEAD from this checkout, then plug
+bun run plug       # install the skill from this checkout (--agent, --path pass through)
+bun run unplug     # remove it
 bun run typecheck
 bun run test       # not bare `bun test` — see below
 ```
