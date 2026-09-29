@@ -1,6 +1,13 @@
 ---
 name: backlog
-description: Manage the kanban board in .agent-backlog/ — a folder per column, a folder per task. Use for anything about the board or its tasks: "what's on the board", "what am I working on", "what's next", "add a task", "create a task for…", "move X to doing", "mark X done", "show me that task", "archive the finished ones", or opening the board's web view. Subcommands are init, list, create, show, move, update, archive, lint, web. Never edit files under .agent-backlog/ by hand — this skill is the board's only writer.
+description: >-
+  Manage the kanban board in .agent-backlog/ — a folder per column, a folder per
+  task. Use for anything about the board or its tasks: "what's on the board",
+  "what am I working on", "what's next", "add a task", "create a task for…",
+  "move X to doing", "mark X done", "show me that task", "archive the finished
+  ones", or opening the board's web view. Subcommands are init, list, create,
+  show, move, update, archive, lint, web. Never edit files under .agent-backlog/
+  by hand — this skill is the board's only writer.
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
